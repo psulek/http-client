@@ -1,6 +1,6 @@
 {
     "name": "http-client-ext",
-    "version": "4.3.3",
+    "version": "4.3.4",
     "description": "Compose HTTP clients using JavaScript's fetch API (fork)",
     "repository": "psulek/http-client",
     "author": "Peter Šulek",
