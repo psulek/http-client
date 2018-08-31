@@ -3,7 +3,31 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.requestInfo = exports.debug = exports.parseText = exports.parseJSON = exports.parse = exports.onResponse = exports.handleResponse = exports.recv = exports.params = exports.json = exports.body = exports.query = exports.base = exports.accept = exports.auth = exports.header = exports.method = exports.init = exports.fetch = exports.createFetch = exports.createStack = exports.enhanceFetch = exports.enableRecv = exports.Options = undefined;
+exports.requestInfo =
+    exports.debug =
+    exports.parseText =
+    exports.parseJSON =
+    exports.parse =
+    exports.onResponse =
+    exports.handleResponse =
+    exports.recv =
+    exports.params =
+    exports.json =
+    exports.body =
+    exports.query =
+    exports.base =
+    exports.accept =
+    exports.auth =
+    exports.header =
+    exports.method =
+    exports.init =
+    exports.fetch =
+    exports.createFetch =
+    exports.createStack =
+    exports.enhanceFetch =
+    exports.enableRecv =
+    exports.removeHeader =
+    exports.Options = undefined;
 
 var _queryString = require('query-string');
 
@@ -14,10 +38,6 @@ var _byteLength2 = _interopRequireDefault(_byteLength);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var global = (1, eval)('this');
-
-var Options = exports.Options = {
-    sendContentLength: true
-};
 
 var stringifyQuery = function stringifyQuery(query) {
     return typeof query === 'string' ? query : (0, _queryString.stringify)(query);
@@ -131,6 +151,12 @@ var setHeader = function setHeader(options, name, value) {
     (options.headers || (options.headers = {}))[name] = value;
 };
 
+/* var removeHeader = function removeHeader(options, name) {
+    if (options.headers && name in options.headers) {
+        delete options.headers[name];
+    }
+} */
+
 /**
  * Adds a header to the request.
  */
@@ -142,6 +168,17 @@ var header = exports.header = function header(name, value) {
         return fetch(input, options);
     };
 };
+
+var removeHeader = exports.removeHeader = function removeHeader(name) {
+    return function (fetch, input) {
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+        if (options.headers && name in options.headers) {
+            delete options.headers[name];
+        }
+        return fetch(input, options);
+    };
+}
 
 /**
  * Adds an Authorization header to the request.
@@ -180,13 +217,15 @@ var query = exports.query = function query(object) {
 /**
  * Adds the given content to the request.
  */
-var body = exports.body = function body(content, contentType) {
+var body = exports.body = function body(content, contentType, sendContentLength) {
     return function (fetch, input) {
         var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         options.body = content;
 
-        if (content.length != null && Options.sendContentLength) {
+        sendContentLength = sendContentLength || true;
+
+        if (content.length != null && sendContentLength) {
             setHeader(options, 'Content-Length', (0, _byteLength2.default)(content));
         }
 
