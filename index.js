@@ -3,31 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.requestInfo =
-    exports.debug =
-    exports.parseText =
-    exports.parseJSON =
-    exports.parse =
-    exports.onResponse =
-    exports.handleResponse =
-    exports.recv =
-    exports.params =
-    exports.json =
-    exports.body =
-    exports.query =
-    exports.base =
-    exports.accept =
-    exports.auth =
-    exports.header =
-    exports.method =
-    exports.init =
-    exports.fetch =
-    exports.createFetch =
-    exports.createStack =
-    exports.enhanceFetch =
-    exports.enableRecv =
-    exports.removeHeader =
-    exports.Options = undefined;
+exports.requestInfo = exports.debug = exports.parseText = exports.parseJSON = exports.parse = exports.onResponse = exports.handleResponse = exports.recv = exports.params = exports.json = exports.body = exports.query = exports.base = exports.accept = exports.auth = exports.header = exports.method = exports.init = exports.fetch = exports.createFetch = exports.createStack = exports.enhanceFetch = exports.enableRecv = undefined;
 
 var _queryString = require('query-string');
 
@@ -151,12 +127,6 @@ var setHeader = function setHeader(options, name, value) {
     (options.headers || (options.headers = {}))[name] = value;
 };
 
-/* var removeHeader = function removeHeader(options, name) {
-    if (options.headers && name in options.headers) {
-        delete options.headers[name];
-    }
-} */
-
 /**
  * Adds a header to the request.
  */
@@ -168,17 +138,6 @@ var header = exports.header = function header(name, value) {
         return fetch(input, options);
     };
 };
-
-var removeHeader = exports.removeHeader = function removeHeader(name) {
-    return function (fetch, input) {
-        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
-        if (options.headers && name in options.headers) {
-            delete options.headers[name];
-        }
-        return fetch(input, options);
-    };
-}
 
 /**
  * Adds an Authorization header to the request.
@@ -223,9 +182,7 @@ var body = exports.body = function body(content, contentType, sendContentLength)
 
         options.body = content;
 
-        sendContentLength = sendContentLength || true;
-
-        if (content.length != null && sendContentLength) {
+        if (content.length != null && (sendContentLength || true)) {
             setHeader(options, 'Content-Length', (0, _byteLength2.default)(content));
         }
 

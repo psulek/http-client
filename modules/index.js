@@ -3,10 +3,6 @@ import byteLength from 'byte-length'
 
 const global = (1, eval)('this')
 
-export const Options = {
-    sendContentLength: true
-}
-
 const stringifyQuery = (query) =>
     (typeof query === 'string' ? query : stringify(query))
 
@@ -151,11 +147,11 @@ export const query = (object) => {
 /**
  * Adds the given content to the request.
  */
-export const body = (content, contentType) =>
+export const body = (content, contentType, sendContentLength) =>
     (fetch, input, options = {}) => {
         options.body = content
 
-        if (content.length != null && Options.sendContentLength) {
+        if (content.length != null && (sendContentLength || true)) {
             setHeader(options, 'Content-Length', byteLength(content))
         }
 
